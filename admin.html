@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin — Mini Finance Manager</title>
+
+  <link rel="stylesheet" href="css/style.css" />
+  <script type="module" src="js/firebase-config.js"></script>
+
+</head>
+<body>
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="brand">Mini Finance — Admin</div>
+    <div class="top-actions">
+      <span id="adminName">Admin</span>
+      <button id="btnSignOut" class="btn small">Sign out</button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <!-- Create New User -->
+    <section class="card create-user">
+      <h3>Create New User</h3>
+      <form id="createUserForm">
+        <div class="row">
+          <input required name="firstName" id="firstname" placeholder="First name" />
+          <input required name="lastName" id="lastname" placeholder="Last name" />
+        </div>
+
+        <div class="row">
+          <input required name="username" placeholder="Username" id="username" />
+          <input required name="password" type="password" placeholder="Password" id="password"/>
+        </div>
+
+        <div class="row">
+          <select name="role" required id="role">
+            <option value="communicator">Communicator</option>
+            <!-- <option value="admin">Admin</option> -->
+          </select>
+          <input name="location" id="location" placeholder="Location (e.g., Karachi)" />
+        </div>
+
+        <div class="row actions">
+          <button class="btn" type="submit">Create User</button>
+          <span id="createStatus" class="muted"></span>
+        </div>
+      </form>
+      <p class="muted">Note: Username and password are stored in Firestore securely.</p>
+    </section>
+
+    <!-- All Users Table -->
+    <section class="card users-list">
+      <h3>All Users</h3>
+      <div class="table-wrap">
+        <table id="usersTable" class="table">
+          <thead>
+            <tr>
+               
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Role</th>
+              <th>Location</th>
+              <th>Created At</th>
+              <th>Actions</th>
+
+            </tr>
+          </thead>
+          <tbody id="usersTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Edit User Modal -->
+  <div id="editModal" class="modal hidden">
+    <div class="modal-inner">
+      <h4>Edit User</h4>
+      <form id="editUserForm">
+        <input name="uid" type="hidden" />
+
+        <div class="row">
+          <input name="firstName" placeholder="First name" required id="firstname_edit"/>
+        </div>
+        <div class="row">
+          <input name="lastName" placeholder="Last name" required  id="lastname_edit"/>
+        </div>
+        <div class="row">
+          <input name="username" placeholder="Username" required id="username_edit" disabled/>
+        </div>
+         <div class="row">
+          <input name="password" placeholder="Password" required id="password_edit"/>
+        </div>
+        <div class="row">
+          <input name="location" placeholder="Location" id="location_edit"/>
+          <select name="role" id="role_edit">
+            <option value="communicator">Communicator</option>
+            <!-- <option value="admin">Admin</option> -->
+          </select>
+        </div>
+
+        <div class="row actions">
+          <button class="btn secondry" type="submit" id="saveEditBtn">Save</button>
+          <button type="button" id="closeEdit" class="btn secondary">Cancel</button>
+          <!-- <button type="button" id="sendReset" class="btn small">Send Reset Email</button> -->
+        </div>
+
+        <div id="editStatus" class="muted"></div>
+      </form>
+    </div>
+  </div>
+
+  <section class="transactions-section">
+  <h2>All Transactions</h2>
+  <div class="filters">
+    <input type="text" id="searchInput" placeholder="Search by transaction..." />
+  </div>
+  <table id="transactionsTable">
+    <thead>
+      <tr>
+        <th>Sender</th>
+        <th>Receiver</th>
+        <th>Amount</th>
+        <th>Rate</th>
+        <th>API Rate</th>
+        <th>Message</th>
+        <th>Date</th>
+        <th>Receipt</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</section>
+
+    <!-- <script>
+        let masterPass = prompt("Enter the Master Pass For Admin:");
+        if(!(masterPass == "masteradminpass")){
+            window.location.href = "login.html";
+        }
+        
+    </script> -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <script type="module" src="js/admin.js"></script>
+</body>
+</html>

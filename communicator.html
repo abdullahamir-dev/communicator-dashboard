@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Communicator Dashboard</title>
+  <link rel="stylesheet" href="css/communicator.css" />
+</head>
+<body>
+  <div class="dashboard-container">
+    <header class="header">
+      <h2 id="greeting">Welcome, Communicator</h2>
+      <button id="logoutBtn">Logout</button>
+    </header>
+
+    <section class="user-info">
+      <p><strong>Username:</strong> <span id="usernameDisplay"></span></p>
+      <p><strong>Role:</strong> Communicator</p>
+      <p><strong>Date:</strong> <span id="dateDisplay"></span></p>
+    </section>
+
+    <section class="transaction-form">
+      <h3>New Transaction</h3>
+      <form id="transactionForm">
+        <input type="text" id="receiverUsername" placeholder="Receiver Username" required />
+        <input type="number" id="amountSent" placeholder="Amount Sent" required />
+        
+        <div class="rate-section">
+          <input type="number" id="rate" placeholder="Manual Rate" step="0.0001" required />
+          <small id="apiRateInfo" class="api-rate-text">Fetching live API rate...</small>
+        </div>
+        
+        <textarea id="message" placeholder="Optional Message"></textarea>
+        <button type="submit">Send Transaction</button>
+      </form>
+    </section>
+
+    <section class="transactions">
+      <h3>Your Transactions</h3>
+      <div id="transactionsContainer" class="transactions-container"></div>
+    </section>
+  </div>
+
+  <!-- External libs -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <script>
+  window.jsPDF = window.jspdf.jsPDF;  // expose globally for modules
+  </script>
+
+  <!-- Module Import -->
+  <script type="module" src="js/communicator.js"></script>
+</body>
+</html>
