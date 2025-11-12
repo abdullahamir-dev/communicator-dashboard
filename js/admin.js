@@ -106,6 +106,13 @@ if (createUserForm) {
             alert("Please fill all required fields!");
             return;
         }
+        
+        //calling checker for checking any registered user with the same username as new registering.
+        //checkUserNameExists(username);
+        let checkerResult = await checkUserNameExists(username);
+        if(checkerResult){
+            return;
+        }
 
         try {
             await addDoc(collection(db, "users"), {
@@ -273,3 +280,28 @@ logoutBtn.addEventListener("click", () => {
   window.location.href = "login.html";
 });
 
+
+
+let checkUserNameExists = async(username)=>{
+    const usersSnapshot = await getDocs(collection(db, "users"));
+
+      let userFound = false;
+      if (usersSnapshot.empty) {
+          //usersTableBody.innerHTML = `<tr><td colspan="6" style="text-align:center;">No users found.</td></tr>`;
+          return userFound;
+      }
+      
+      
+      usersSnapshot.forEach((userDoc) => {
+          const user = userDoc.data();
+          if(user.username == username){
+              userFound = true;
+          } 
+      });
+
+      if(userFound){
+         alert(`A user with this username: "${username}" already exists!`);
+      }
+
+      return userFound;
+}

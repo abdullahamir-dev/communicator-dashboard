@@ -66,6 +66,27 @@ form.addEventListener("submit", async (e) => {
     return;
   }
 
+  
+  const usersSnapshot = await getDocs(collection(db, "users"));
+  
+      if (usersSnapshot.empty) {
+          //usersTableBody.innerHTML = `<tr><td colspan="6" style="text-align:center;">No users found.</td></tr>`;
+          return;
+      }
+      
+      let userFound = false;
+      usersSnapshot.forEach((userDoc) => {
+          const user = userDoc.data();
+          if(user.username == receiverUsername){
+              userFound = true;
+          } 
+      });
+
+      if(!userFound){
+         alert(`The receiver with this username: "${receiverUsername}" not exists!`);
+         return;
+      }
+
   const transaction = {
     senderUsername: currentUser.username,
     receiverUsername,
