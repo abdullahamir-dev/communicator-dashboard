@@ -23,10 +23,10 @@
       <h3>New Transaction</h3>
       <form id="transactionForm">
         <input type="email" id="receiverUsername" placeholder="Receiver Username" required />
-        <input type="number" id="amountSent" placeholder="Amount Sent" required />
+        <input type="number" id="amountSent" placeholder="Amount Sent" min=1 required />
         
         <div class="rate-section">
-          <input type="number" id="rate" placeholder="Manual Rate" step="0.0001" required />
+          <input type="number" id="rate" placeholder="Manual Rate" step="0.0001" min=0 required />
           <small id="apiRateInfo" class="api-rate-text">Fetching live API rate...</small>
         </div>
         
