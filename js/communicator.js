@@ -9,7 +9,7 @@ import {
   getDocs
 } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
 
- 
+
 
 // ---------- ELEMENTS ----------
 const currentUser = (JSON.parse(localStorage.getItem("currentUser")));
@@ -25,7 +25,7 @@ const apiRateInfo = document.getElementById("apiRateInfo");
 if (!currentUser) window.location.href = "login.html";
 
 // ---------- INIT UI ----------
-greeting.textContent = `Welcome, ${currentUser.firstName + " "+ currentUser.lastName}!`;
+greeting.textContent = `Welcome, ${currentUser.firstName + " " + currentUser.lastName}!`;
 usernameDisplay.textContent = currentUser.username;
 dateDisplay.textContent = new Date().toDateString();
 
@@ -66,26 +66,32 @@ form.addEventListener("submit", async (e) => {
     return;
   }
 
-  
-  const usersSnapshot = await getDocs(collection(db, "users"));
-  
-      if (usersSnapshot.empty) {
-          //usersTableBody.innerHTML = `<tr><td colspan="6" style="text-align:center;">No users found.</td></tr>`;
-          return;
-      }
-      
-      let userFound = false;
-      usersSnapshot.forEach((userDoc) => {
-          const user = userDoc.data();
-          if(user.username == receiverUsername){
-              userFound = true;
-          } 
-      });
+  if (amountSent <= 0) {
+    alert("Invalid Amount (The Amount Should be greator then 0!)");
+    form.amountSent.style.color = "red";
+    return;
+  }
 
-      if(!userFound){
-         alert(`The receiver with this username: "${receiverUsername}" not exists!`);
-         return;
-      }
+  const usersSnapshot = await getDocs(collection(db, "users"));
+
+  if (usersSnapshot.empty) {
+    //usersTableBody.innerHTML = `<tr><td colspan="6" style="text-align:center;">No users found.</td></tr>`;
+    return;
+  }
+
+  let userFound = false;
+  usersSnapshot.forEach((userDoc) => {
+    const user = userDoc.data();
+    if (user.username == receiverUsername) {
+      userFound = true;
+    }
+  });
+
+  if (!userFound) {
+    form.receiverUsername.style.color = "red";
+    alert(`The receiver with this username: "${receiverUsername}" not exists!`);
+    return;
+  }
 
   const transaction = {
     senderUsername: currentUser.username,
@@ -106,6 +112,16 @@ form.addEventListener("submit", async (e) => {
     alert("Failed to send transaction.");
   }
 });
+
+
+form.amountSent.addEventListener("input", (e) => {
+  e.target.style.color = "black";
+});
+
+form.receiverUsername.addEventListener("input", (e) => {
+  e.target.style.color = "black";
+});
+
 
 // ---------- LOAD TRANSACTIONS ----------
 async function loadTransactions() {
